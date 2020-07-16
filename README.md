@@ -1,10 +1,9 @@
-# GitHub action to automatically rebase PRs
+# GitHub action to automatically merge the base branch into the current PR
 
 [![Build Status](https://api.cirrus-ci.com/github/cirrus-actions/rebase.svg)](https://cirrus-ci.com/github/cirrus-actions/rebase) [![](https://images.microbadger.com/badges/version/cirrusactions/rebase.svg)](https://microbadger.com/images/cirrusactions/rebase) [![](https://images.microbadger.com/badges/image/cirrusactions/rebase.svg)](https://microbadger.com/images/cirrusactions/rebase)
 
-After installation simply comment `/rebase` to trigger the action:
+After installation simply comment `/update` to trigger the action:
 
-![rebase-action](https://user-images.githubusercontent.com/989066/51547853-14a57b00-1e35-11e9-841d-33114f0f0bd5.gif)
 
 # Installation
 
@@ -25,7 +24,7 @@ jobs:
       uses: actions/checkout@v2
       with:
         fetch-depth: 0
-    - name: Automatic Rebase
+    - name: Automatic Sync
       uses: cirrus-actions/rebase@1.3.1
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
