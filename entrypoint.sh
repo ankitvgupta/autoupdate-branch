@@ -43,10 +43,22 @@ if [[ "$USER_EMAIL" == "null" ]]; then
 	USER_EMAIL="$USER_LOGIN@users.noreply.github.com"
 fi
 
-if [[ "$(echo "$pr_resp" | jq -r .mergeable)" != "true" ]]; then
+if [[ "$(echo "$pr_resp" | jq -r .mergeable)" == "false" ]]; then
 	echo "GitHub doesn't think that the PR can be updated automatically!"
 	echo "API response: $pr_resp"
 	exit 1
+fi
+
+if [[ "$(echo "$pr_resp" | jq -r .mergeable)" != "true" ]]; then
+	echo "Mergeablility not computed yet. Trying again in 30 seconds."
+	sleep 30
+	pr_resp=$(curl -X GET -s -H "${AUTH_HEADER}" -H "${API_HEADER}" \
+          "${URI}/repos/$GITHUB_REPOSITORY/pulls/$PR_NUMBER")
+    if [[ "$(echo "$pr_resp" | jq -r .mergeable)" != "true" ]]; then
+		echo "GitHub doesn't think that the PR can be updated automatically!"
+		echo "API response: $pr_resp"
+		exit 1
+	fi
 fi
 
 if [[ -z "$BASE_BRANCH" ]]; then
