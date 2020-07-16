@@ -25,7 +25,7 @@ jobs:
       with:
         fetch-depth: 0
     - name: Automatic Sync
-      uses: cirrus-actions/rebase@1.3.1
+      uses: ankitvgupta/pr-updater@v1.0.0
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 ```
