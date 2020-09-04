@@ -15,8 +15,8 @@ on:
     types: [created]
 name: Automatic Rebase
 jobs:
-  rebase:
-    name: Rebase
+  update:
+    name: update
     if: github.event.issue.pull_request != '' && contains(github.event.comment.body, '/rebase')
     runs-on: ubuntu-latest
     steps:
@@ -24,10 +24,11 @@ jobs:
       uses: actions/checkout@v2
       with:
         fetch-depth: 0
+        token: ${{ secrets.PAT }} # needed if you want the merge commit to trigger other workflows in your PR.
     - name: Automatic Sync
       uses: ankitvgupta/pr-updater@v1.4.0
       env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        GITHUB_TOKEN: ${{ secrets.PAT }} # needed if you want the merge commit to trigger other workflows in your PR.
 ```
 
 ## Restricting who can call the action
